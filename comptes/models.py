@@ -32,4 +32,3 @@ class Utilisateur(AbstractUser):
 
     # Le champ utilisé comme nom d'utilisateur
     USERNAME_FIELD = "matricule"
-
