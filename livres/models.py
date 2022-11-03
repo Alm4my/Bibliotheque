@@ -13,6 +13,7 @@ class Livre(models.Model):
     isbn = models.CharField(max_length=13, primary_key=True)
     titre = models.CharField(max_length=255)
     nombre = models.IntegerField()
+    description = models.TextField(null=True, blank=True)
     auteurs = models.ManyToManyField(Auteur, "livres")
 
 
@@ -27,4 +28,5 @@ class Commande(models.Model):
     validee = models.BooleanField(default=False)
     date_debut = models.DateField(auto_now_add=True, blank=True)
     date_fin = models.DateField(blank=True, null=True)
+    note = models.TextField(null=True, blank=True)
     histoire = HistoricalRecords(table_name="livres_commandes_historique")
