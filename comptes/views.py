@@ -3,7 +3,7 @@ from django.contrib.auth import login
 from django.shortcuts import redirect, render
 
 from comptes.forms import CreateUserForm, LoginForm
-from util.error_messages import FAILED_REGISTRATION, WRONG_CREDENTIALS
+from util.messages import FAILED_REGISTRATION, WRONG_CREDENTIALS
 
 
 def register_view(req):
