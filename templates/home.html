@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+    <div class="alert alert-success" role="alert">
+        <h3>Bienvenue {{ user.nom }}!</h3>
+        <a href="{% url 'logout' %}">Deconnexion ?</a>
+    </div>
+{% else %}
+    <div class="alert alert-success" role="alert">
+        <h3>Bienvenue sur votre Bibliothèque IDSI!</h3>
+        <a href="{% url 'register' %}">Inscription</a>
+        <a href="{% url 'login' %}">Connexion</a>
+    </div>
+{% endif %}
+</body>
+</html>

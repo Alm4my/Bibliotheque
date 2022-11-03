@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    <div class="alert alert-success" role="alert">
+        <h2 style="text-align: center;">Vous avez été déconnecté !</h2>
+    </div>
+
+    <h3>Se Connecter ?</h3>
+    <a href="{% url 'login' %}">---> Connexion</a>
+    <a href="{% url 'home' %}">---> Accueil</a>
+{% endblock %}
