@@ -35,4 +35,4 @@ class AuthBackend(ModelBackend):
         Reject users with is_active=False. Custom user models that don't have
         that attribute are allowed.
         """
-        return auth_user.user.is_active
+        return auth_user.is_active
