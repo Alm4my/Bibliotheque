@@ -2,6 +2,7 @@ import datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import F
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.timezone import now
@@ -84,9 +85,11 @@ def add_commande(request):
             if form.is_valid():
                 commande = form.save(commit=False)
                 commande.isbn_livre_id = isbn
-                livre = models.Livre.objects.filter(isbn=isbn).first()
-                livre.nombre_de_copies -= 1
-                livre.save()
+                livre = models.Livre.objects.filter(isbn=isbn).update(
+                    nombre_de_copies=F('nombre_de_copies') - 1
+                )
+                # livre.nombre_de_copies -= 1
+                # livre.save()
                 commande.matricule = request.user
                 commande.date_debut = now()
                 commande.date_fin = now() + datetime.timedelta(days=4)
@@ -112,9 +115,12 @@ def voir_commandes(request, matricule=None):
             }
         )
     else:
-        Cm.objects.filter(pk=matricule).delete()
+        commande = Cm.objects.filter(pk=matricule).first()
+        models.Livre.objects.filter(isbn=commande.isbn_livre_id).update(
+            nombre_de_copies=F('nombre_de_copies') + 1
+        )
+        commande.delete()
         return redirect('voir-commande')
-
 
 # @user_passes_test(permissions.is_staff)
 # def supprimer_commande(request, pk):
