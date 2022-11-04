@@ -6,6 +6,15 @@ from django.db.models import Q
 from comptes.models import Utilisateur
 
 
+class CreateBiblioForm(UserCreationForm):
+    class Meta:
+        model = Utilisateur
+        fields = (
+            "nom", "prenoms", "matricule", "email", "telephone", "password1",
+            "password2", "is_staff"
+        )
+
+
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = Utilisateur

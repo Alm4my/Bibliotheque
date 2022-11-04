@@ -65,4 +65,6 @@ urlpatterns = [
             template_name='comptes/mdp-confirm-complete.html'),
         name='password_reset_confirm'
     ),
+
+    path('add-bib/', views.register_bib, name='register-bib')
 ]

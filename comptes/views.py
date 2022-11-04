@@ -1,9 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect, render
 
-from comptes.forms import CreateUserForm, LoginForm
-from util.messages import FAILED_REGISTRATION, WRONG_CREDENTIALS
+from comptes import permissions
+from comptes.forms import CreateBiblioForm, CreateUserForm, LoginForm
+from util.messages import (
+    BIB_CREATE_FAIL, BIB_CREATE_SUCCESS, FAILED_REGISTRATION,
+    WRONG_CREDENTIALS,
+)
 
 
 def register_view(req):
@@ -40,3 +45,19 @@ def login_view(req):
                 'form': form
             }
         )
+
+
+@user_passes_test(permissions.is_staff)
+def register_bib(request):
+    form = CreateBiblioForm(request.POST or None)
+    if request.method == 'GET':
+        return render(request, 'admin/ajout_staff.html', {'form': form})
+
+    else:
+        if form.is_valid():
+            form.save()
+            messages.success(request, BIB_CREATE_SUCCESS)
+            return redirect('home')
+
+        messages.error(request, BIB_CREATE_FAIL)
+        return render(request, 'admin/ajout_staff.html', {'form': form})

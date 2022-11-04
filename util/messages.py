@@ -20,3 +20,7 @@ COMMANDE_CREATION_ERROR = "Nous n'avons pas pu créer votre commande. Vous devez
 
 COMMANDE_CREATION_ERROR_NO_BOOK_AVAIL = "Tous nos livres ayant ce titre ont été déjà " \
                                         "prete. Veuillez re-essayer plus tard."
+
+BIB_CREATE_SUCCESS = "Vous avez créez un nouveau bibliothécaire avec succès. Vous " \
+                     "pouvez maintenant vous connecter."
+BIB_CREATE_FAIL = "Nous n'avons pas pu créer un nouveau bibliothécaire."
