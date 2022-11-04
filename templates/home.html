@@ -12,6 +12,19 @@ Accueil
     <div class="alert alert-success" role="alert">
         <h3>Bienvenue {{ user.nom }}!</h3>
         <a href="{% url 'logout' %}">Deconnexion ?</a>
+    {% if user.is_staff %}
+        <ul>
+            <li>
+                <a href="{% url 'book-create' %}">Ajouter Livre</a>
+            </li>
+            <li>
+                <a href="{% url 'author-create' %}">Ajouter Auteur</a>
+            </li>
+            <li>
+                <a href="{% url 'voir-commande' %}">Voir Commandes</a>
+            </li>
+        </ul>
+    {% endif %}
     </div>
 {% else %}
     <div class="alert alert-success" role="alert">
