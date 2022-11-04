@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 from django.db import models
 
 
@@ -23,6 +24,17 @@ class Utilisateur(AbstractUser):
 
     telephone = models.CharField(
         "Numéro de telephone de l'utilisateur", max_length=10, unique=True
+    )
+    email = models.EmailField(
+        "adresse email",
+        unique=True,
+        validators=[
+            RegexValidator(
+                regex=r'^[\w\d_\-.]+@inphb.ci$',
+                message='Vous devez utiliser un email qui se termine par @inphb.ci',
+                code='noinp'
+            )
+        ]
     )
 
     # Attributs désactivés remplacer par des attributs en francais.
