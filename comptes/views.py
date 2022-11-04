@@ -29,7 +29,8 @@ def login_view(req):
 
     else:
         if req.POST and form.is_valid() and form.login(req):
-            return redirect('home')
+            return redirect(req.GET.get('next')) \
+                if req.GET.get('next') else redirect('home')
 
         messages.error(req, WRONG_CREDENTIALS)
         return render(
