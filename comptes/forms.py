@@ -41,7 +41,7 @@ class LoginForm(forms.Form):
         raise forms.ValidationError(
             'Vos identifiants sont invalides. Veuillez '
             're-essayer.'
-            )
+        )
 
     def login(self, request):
         user: Utilisateur = authenticate(

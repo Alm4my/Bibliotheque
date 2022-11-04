@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Changer MDP Utilisateur
+{% endblock %}
+
+{% block content %}
+    <style>
+        .errorlist{color:orangered}
+    </style>
+{% for message in messages %}
+    <p style="color:orangered">{{ message }}</p>
+{% endfor %}
+<form method="POST">
+    <h3>Changer MDP Utilisateur</h3>
+    {% csrf_token %}
+
+    <label for="pk">Utilisateur: </label>
+    <div>
+        <select name="pk" id="pk">
+        {% for utilisateur in utilisateurs %}
+            <option value="{{ utilisateur.pk }}">{{ utilisateur }} - {{ utilisateur.nom }} {{ utilisateur.prenoms }}</option>
+        {% endfor %}
+    </select>
+    </div>
+    <div>
+        <label> Mot de passe:
+            <input type="password" name="password1" placeholder="*********">
+        </label>
+        <div class="help" id="id_password1_helptext">
+            <ul>
+                <li>Votre mot de passe ne peut pas trop ressembler à vos autres informations personnelles.</li>
+                <li>Votre mot de passe doit contenir au minimum 8 caractères.</li>
+                <li>Votre mot de passe ne peut pas être un mot de passe couramment utilisé.</li>
+                <li>Votre mot de passe ne peut pas être entièrement numérique.</li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <label> Confirmation du Mot de passe:
+        <input type="password" name="password2" placeholder="*********">
+    </label>
+        <div class="help" id="id_password2_helptext">Saisissez le même mot de passe que précédemment, pour vérification.</div>
+    </div>
+
+    <div>
+        <button type="submit">Changer</button>
+    </div>
+</form>{% endblock %}

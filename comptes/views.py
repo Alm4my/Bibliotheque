@@ -1,13 +1,16 @@
+import re
+
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect, render
 
 from comptes import permissions
-from comptes.forms import CreateBiblioForm, CreateUserForm, LoginForm
+from comptes.forms import CreateBiblioForm, CreateUserForm, LoginForm, UpdateUserPassForm
+from comptes.models import Utilisateur
 from util.messages import (
     BIB_CREATE_FAIL, BIB_CREATE_SUCCESS, FAILED_REGISTRATION,
-    WRONG_CREDENTIALS,
+    PASSWD_CHANGE_FAIL, PASSWD_CHANGE_SUCCESS, WRONG_CREDENTIALS,
 )
 
 
@@ -61,3 +64,27 @@ def register_bib(request):
 
         messages.error(request, BIB_CREATE_FAIL)
         return render(request, 'admin/ajout_staff.html', {'form': form})
+
+
+@user_passes_test(permissions.is_staff)
+def change_user_password(request):
+    utilisateurs = Utilisateur.objects.all()
+
+    if request.method == 'GET':
+        return render(request, 'admin/modifier_mdp.html', {'utilisateurs': utilisateurs})
+
+    else:
+        regex = r'^(?=.*\d)[A-Za-z\d]{8,}$'
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        if password2 == password1 and re.match(regex, password1):
+            user = Utilisateur.objects.filter(pk=request.POST.get('pk')).first()
+            if user:
+                user.set_password(password1)
+                messages.success(request, PASSWD_CHANGE_SUCCESS)
+                user.save()
+                return redirect('home')
+
+        messages.error(request, PASSWD_CHANGE_FAIL)
+        return render(request, 'admin/modifier_mdp.html', {'utilisateurs': utilisateurs})
+

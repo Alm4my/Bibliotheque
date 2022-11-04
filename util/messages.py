@@ -24,3 +24,10 @@ COMMANDE_CREATION_ERROR_NO_BOOK_AVAIL = "Tous nos livres ayant ce titre ont ét�
 BIB_CREATE_SUCCESS = "Vous avez créez un nouveau bibliothécaire avec succès. Vous " \
                      "pouvez maintenant vous connecter."
 BIB_CREATE_FAIL = "Nous n'avons pas pu créer un nouveau bibliothécaire."
+
+PASSWD_CHANGE_SUCCESS = "Le mot de passe pour l'utilisateur à été changé avec succès."
+PASSWD_CHANGE_FAIL = "Nous n'avons pas pu changer le mot de passe. Veuillez " \
+                     "vous assurer que vos mots de passes sont identiques et " \
+                     "qu'ils soient long de 8 caractères avec au moins un " \
+                     "chiffre et re-essayer ou " \
+                    "contacter l'administrateur."

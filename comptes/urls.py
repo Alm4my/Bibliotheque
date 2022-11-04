@@ -66,5 +66,8 @@ urlpatterns = [
         name='password_reset_confirm'
     ),
 
-    path('add-bib/', views.register_bib, name='register-bib')
+    path('add-bib/', views.register_bib, name='register-bib'),
+
+    path('change-user-mdp/', views.change_user_password, name='register-bib'),
+    path('change-user-mdp/<str:pk>', views.change_user_password, name='register-bib'),
 ]
