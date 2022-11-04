@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+Ajout d'un Livre
+{% endblock %}
+{% block content %}
+    <h3>Ajouter un auteur</h3>
+    {% for message in messages %}
+        <p style="color:orangered">{{ message }}</p>
+    {% endfor %}
+
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <p>{{ field.label }}: {{ field }}</p>
+            {% for error in field.errors %}
+                <small style="color:darkred">{{ error }}</small>
+            {% endfor %}
+
+        {% endfor %}
+
+        <button type="submit">Ajouter Livre</button>
+    </form>
+
+{% endblock %}
+

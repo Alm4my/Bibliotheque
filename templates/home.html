@@ -5,6 +5,11 @@
     <title>Accueil</title>
 </head>
 <body>
+
+{% for message in messages %}
+    <p style="color:orangered">{{ message }}</p>
+{% endfor %}
+
 {% if user.is_authenticated %}
     <div class="alert alert-success" role="alert">
         <h3>Bienvenue {{ user.nom }}!</h3>

@@ -25,5 +25,6 @@ def home(req):
 urlpatterns = [
     path('', home, name='home'),
     path('comptes/', include('comptes.urls')),
+    path('livres/', include('livres.urls')),
     path('admin/', admin.site.urls),
 ]
