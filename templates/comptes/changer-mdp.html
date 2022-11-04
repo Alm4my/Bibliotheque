@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Modification du mot de passe
+{% endblock %}
+
+{% block content %}
+    <style>
+        .errorlist{color:orangered}
+    </style>
+{% for message in messages %}
+    <p style="color:orangered">{{ message }}</p>
+{% endfor %}
+<form method="POST">
+    <h3>Changer Mot de Passe</h3>
+    {% csrf_token %}
+    {{ form.as_p }}
+        {% for error in field.errors %}
+            <small style="color:red;">{{ error }}</small>
+        {% endfor %}
+
+    <div>
+        <button type="submit">Changer</button>
+    </div>
+</form>{% endblock %}
