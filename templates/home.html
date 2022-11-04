@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Accueil</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}
+Accueil
+{% endblock %}
 
+{% block content %}
 {% for message in messages %}
     <p style="color:orangered">{{ message }}</p>
 {% endfor %}
@@ -22,5 +20,4 @@
         <a href="{% url 'login' %}">Connexion</a>
     </div>
 {% endif %}
-</body>
-</html>
+{% endblock %}

@@ -1,9 +1,12 @@
+{% load static %}
 <!DOCTYPE HTML>
 <html lang="fr">
 <head>
     <title>{% block title %}Bibliothèque IDSI{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
 <body>
     {% block content %}{% endblock %}
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

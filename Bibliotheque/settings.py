@@ -132,3 +132,6 @@ AUTHENTICATION_BACKENDS = (
 )
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
