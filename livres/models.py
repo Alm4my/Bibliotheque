@@ -39,10 +39,10 @@ class Livre(models.Model):
 
 
 class Commande(models.Model):
-    class EtatEmprunt(models.TextChoices):
-        PREMIER_EMPRUNT = 'P', 'PREMIER EMPRUNT'
-        LIVRE_NON_RENDU = 'N', 'LIVRE NON RENDU'
-        LIVRE_RENDU = 'R', 'LIVRE RENDU'
+    # class EtatEmprunt(models.TextChoices):
+    #     PREMIER_EMPRUNT = 'P', 'PREMIER EMPRUNT'
+    #     LIVRE_NON_RENDU = 'N', 'LIVRE NON RENDU'
+    #     LIVRE_RENDU = 'R', 'LIVRE RENDU'
 
     matricule = models.OneToOneField(
         comptes.models.Utilisateur,
@@ -51,8 +51,7 @@ class Commande(models.Model):
         primary_key=True
     )
     isbn_livre = models.ForeignKey(Livre, on_delete=models.DO_NOTHING)
-    etat_emprunt = models.CharField(max_length=1, choices=EtatEmprunt.choices,
-                                    default=EtatEmprunt.PREMIER_EMPRUNT)
+    emprunt_en_cours = models.BooleanField(default=True)
     date_debut = models.DateField(auto_now_add=True, blank=True)
     date_fin = models.DateField(blank=True, null=True)
     note = models.TextField(null=True, blank=True)

@@ -10,7 +10,7 @@ Commandes en cours
         Etudiant: {{ commande.matricule.nom }} {{ commande.matricule.prenoms }} |
         Date de Debut: {{ commande.date_debut }} |
         Date de Fin: {{ commande.date_fin }} |
-        Etat Livre: {{ commande.etat_emprunt }} |
+        Etat Livre: {{ commande.emprunt_en_cours }} |
     </p>
     <form method="post" action="{% url 'voir-commande' commande.matricule_id %}">
         Action: <button type="submit">Livre Rendu</button>

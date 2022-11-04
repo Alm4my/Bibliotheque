@@ -69,22 +69,17 @@ def add_commande(request):
         return render(request, 'livre/commande.html', {'form': form})
 
     else:
-        com = models.Commande.objects.get(matricule=request.user.matricule)
-        if (
-                com.etat_emprunt == Cm.EtatEmprunt.PREMIER_EMPRUNT or
-                com.etat_emprunt == Cm.EtatEmprunt.LIVRE_RENDU
-        ):
+        com = models.Commande.objects.filter(matricule=request.user.matricule).first()
+        if com is None or not com.emprunt_en_cours:
             if form.is_valid():
                 commande = form.save(commit=False)
                 commande.matricule = request.user
                 commande.date_debut = now()
                 commande.date_fin = now() + datetime.timedelta(days=4)
-                commande.etat_emprunt = models.Commande.EtatEmprunt.LIVRE_NON_RENDU
+                commande.emprunt_en_cours = True
                 commande.save()
                 messages.success(request, m.COMMANDE_CREATION_SUCCESS)
                 return redirect(reverse('home'))
-
-        messages.error(request, m.COMMANDE_CREATION_ERROR_2)
 
         messages.error(request, m.COMMANDE_CREATION_ERROR)
         return render(request, 'livre/commande.html', {'form': form})
