@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect, render
 
 from comptes import permissions
-from comptes.forms import CreateBiblioForm, CreateUserForm, LoginForm, UpdateUserPassForm
+from comptes.forms import CreateBiblioForm, CreateUserForm, LoginForm
 from comptes.models import Utilisateur
 from util.messages import (
     BIB_CREATE_FAIL, BIB_CREATE_SUCCESS, FAILED_REGISTRATION,
