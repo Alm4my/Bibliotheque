@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from simple_history.models import HistoricalRecords
 
@@ -16,7 +17,18 @@ class Auteur(models.Model):
 
 
 class Livre(models.Model):
-    isbn = models.CharField(max_length=13, primary_key=True)
+    isbn = models.CharField(
+        max_length=13,
+        primary_key=True,
+        validators=[
+            RegexValidator(
+                regex=r'^(?=(?:.{10}|.{13})$)[0-9]*$',
+                message='Seulement les chiffres sont acceptés. l\'isbn doit etre long '
+                        'de 10 ou de 13 chiffres.',
+                code='nomatch'
+            )
+        ]
+    )
     titre = models.CharField(max_length=255)
     nombre_de_copies = models.IntegerField(default=1)
     description = models.TextField(null=True, blank=True)
