@@ -18,4 +18,4 @@ class AddBookForm(forms.ModelForm):
 class AddCommandeForm(forms.ModelForm):
     class Meta:
         model = models.Commande
-        fields = ('isbn_livre', 'note')
+        fields = ('note',)

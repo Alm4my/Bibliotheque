@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-Ajout d'un Livre
+Réserver un livre
 {% endblock %}
 {% block content %}
     <h3>Réserver un livre</h3>
@@ -10,6 +10,13 @@ Ajout d'un Livre
 
     <form method="post">
         {% csrf_token %}
+    <label for="isbn_livre">Livre</label>
+        <select name="isbn_livre" id="isbn_livre">
+            {% for livre in livres %}
+                <option value="{{ livre.isbn }}">{{ livre }}</option>
+            {% endfor %}
+
+        </select>
         {% for field in form %}
             <p>{{ field.label }}: {{ field }}</p>
             {% for error in field.errors %}

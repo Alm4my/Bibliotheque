@@ -12,13 +12,19 @@ from livres.models import Commande as Cm
 from util import messages as m
 
 
+# verification du statut de l'utilisateur en
+# tant que staff i.e. bibliothécaire
 @user_passes_test(permissions.is_staff)
 def add_author(request):
+    # creation d'un formulaire d'ajout de livre avec le contenu POST de la requête s'il
+    # existe ou avec rien si non
     form = forms.AddAuthorForm(request.POST or None)
 
+    # si notre requête est GET, nous retournons simplement le formulaire
     if request.method == 'GET':
         return render(request, 'auteur/creation.html', {'form': form})
 
+    # si non, on vérifie si notre formulaire est valide et on l'enregistre.
     else:
         if form.is_valid():
             author: models.Auteur = form.save()
@@ -36,6 +42,8 @@ def add_author(request):
         return render(request, 'auteur/creation.html', {'form': form})
 
 
+# ici on vérifie si l'utilisateur fait partie du staff manuellement au lieu d'utiliser
+# un décorateur.
 def add_book(request):
     form = forms.AddBookForm(request.POST or None)
     if request.user.is_staff and request.user.is_active:
@@ -65,14 +73,20 @@ def add_book(request):
 def add_commande(request):
     form = forms.AddCommandeForm(request.POST or None)
 
+    livres = models.Livre.objects.filter(nombre_de_copies__gte=1)
     if request.method == 'GET':
-        return render(request, 'livre/commande.html', {'form': form})
+        return render(request, 'livre/commande.html', {'form': form, 'livres': livres})
 
     else:
         com = models.Commande.objects.filter(matricule=request.user.matricule).first()
+        isbn = request.POST.get('isbn_livre')
         if com is None or not com.emprunt_en_cours:
             if form.is_valid():
                 commande = form.save(commit=False)
+                commande.isbn_livre_id = isbn
+                livre = models.Livre.objects.filter(isbn=isbn).first()
+                livre.nombre_de_copies -= 1
+                livre.save()
                 commande.matricule = request.user
                 commande.date_debut = now()
                 commande.date_fin = now() + datetime.timedelta(days=4)
@@ -82,7 +96,7 @@ def add_commande(request):
                 return redirect(reverse('home'))
 
         messages.error(request, m.COMMANDE_CREATION_ERROR)
-        return render(request, 'livre/commande.html', {'form': form})
+        return render(request, 'livre/commande.html', {'form': form, 'livres': livres})
 
 
 @user_passes_test(permissions.is_staff)
