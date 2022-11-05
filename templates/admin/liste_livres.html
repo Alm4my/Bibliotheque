@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load template_filter %}
+{% block title %}
+Liste des Livres
+{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/tom-select.bootstrap5.min.css' %}">
+    <div class="row mb-3">
+        <div class="col"></div>
+        <div class="col-6 text-center">
+            <h3>Liste des Livres</h3>
+            <small>
+                Cette page montre la totalité des livres. Leurs nombres peuvent être modifier ou même supprime.
+            </small>
+        </div>
+        <div class="col"></div>
+    </div>
+    <div class="row">
+        <label for="search"></label>
+        <input class="form-control form-control-lg" type="text" id="search" onkeyup="search()"
+               placeholder="Rechercher un livre par son titre...">
+    <table class="table table-dark table-striped table-hover" id="commande">
+        <thead>
+        <tr>
+            <th>ISBN Livre</th>
+            <th>Titre Livre</th>
+            <th>Description</th>
+            <th>Auteurs</th>
+            <th>Nombres de Copies</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for livre in livres %}
+            <tr>
+                <td>{{ livre.isbn }}</td>
+                <td>{{ livre.titre }} </td>
+                <td>{{ livre.description }}</td>
+                <td>
+                    {% for value in livre.auteurs.values %}
+                        {{ value.nom }} {{ value.prenoms }} -
+                    {% endfor %}
+                </td>
+                <td>
+                    {{ livre.nombre_de_copies }}</td>
+                <td>
+
+                 <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ forloop.counter0 }}">
+                        Supprimer
+                    </button>
+
+                    <button class="btn btn-info" id="mod" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop2{{ forloop.counter0 }}">
+                        Modifier
+                    </button>
+
+                    <form method="post" action="{% url 'supprimer-livres' livre.isbn %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="pk" value="{{ livre.isbn }}">
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop{{ forloop.counter0 }}" data-bs-backdrop="static"
+                             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header" style="color: #373b3e">
+                                <h3 class="modal-title fs-5" id="staticBackdropLabel">
+                                    Suppression
+                                </h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body" style="color: #373b3e">
+                                <p>Voulez-vous supprimer ce livre ?</p>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="submit" class="btn btn-danger">Oui</button>
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </form>
+
+
+                    <!-- Modal -->
+                    <form method="post" action="{% url 'maj-livres' livre.isbn %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="pk" value="{{ livre.isbn }}">
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop2{{ forloop.counter0 }}" data-bs-backdrop="static"
+                             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header" style="color: #373b3e">
+                                <h3 class="modal-title fs-5" id="staticBackdropLabel2">
+                                    Modifier Livre: <b>{{ livre.titre }}</b>
+                                </h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body" style="color: #373b3e">
+
+                                  <div class="form-floating mb-3">
+                                      <input type="number" name="isbn" maxlength="13" class="form-control" id="floatingInput"
+                                             placeholder="ISBN" required value="{{ livre.isbn }}">
+                                      <label for="floatingInput">International Standard Book Number (ISBN)</label>
+                                        <div class="invalid-feedback">
+                                          L'ISBN doit avoir une taille de 10 ou 13 chiffres.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                      <input type="text" name="titre" value="{{ livre.titre }}"
+                                             class="form-control" id="floatingPassword" required>
+                                      <label for="floatingPassword">Titre du Livre</label>
+                                        <div class="invalid-feedback">
+                                          Le livre doit avoir un titre.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                          <input type="number" value="{{ livre.nombre_de_copies }}"
+                                                 name="nombre_de_copies" class="form-control"
+                                                 id="floatingPassword" required>
+                                          <label for="floatingPassword">Nombres de Copies</label>
+                                            <div class="invalid-feedback">
+                                              Le livre doit avoir au moins une copie.
+                                            </div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            Description
+                                            <label for="exampleFormControlTextarea1" class="form-label"></label>
+                                            <textarea class="form-control"
+                                                      placeholder="desc" name="description"
+                                                      id="exampleFormControlTextarea1" rows="4">{{ livre.description }}</textarea>
+                                        </div>
+                                        Auteur(s)
+                                        <select class="form-select mb-3" id="auteur-search" size="4" name="auteurs" multiple aria-label="multiple select size 6" required>
+                                          {% for auteur in auteurs %}
+                                              {% if auteur.id in livres_auteurs|get_item:livre.isbn %}
+                                                  <option selected value="{{ auteur.id }}">{{ auteur }}</option>
+                                              {% else %}
+                                                  <option value="{{ auteur.id }}">{{ auteur }}</option>
+                                              {% endif %}
+                                          {% endfor %}
+                                        </select>
+                                    <div class="mb-3">
+                                        {% for message in messages %}
+                                            <p style="color:orangered">{{ message }}</p>
+                                        {% endfor %}
+                                    </div>
+                              </div>
+                              <div class="modal-footer">
+                                  <button class="btn btn-primary btn-lg" type="submit">Modifier</button>
+                                  <button class="btn btn-outline-danger btn-lg" data-bs-dismiss="modal">Retour</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    </div>
+<script>
+function search() {
+  // Declare variables
+  let input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("search");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("commande");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+<script src="{% static 'js/tom-select.complete.min.js' %}"></script>
+<script>
+    new TomSelect("#auteur-search", {
+        maxItems: 15
+    });
+</script>
+{% endblock %}

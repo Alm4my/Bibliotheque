@@ -125,3 +125,37 @@ def voir_commandes(request, matricule=None):
 
 # @user_passes_test(permissions.is_staff)
 # def supprimer_commande(request, pk):
+
+
+@user_passes_test(permissions.is_staff)
+def voir_livres(request):
+    livres_auteurs = {}
+    for livre in models.Livre.objects.all():
+        ids = [a.id for a in livre.auteurs.all()]
+        livres_auteurs[livre.isbn] = ids
+    if request.method == 'GET':
+        return render(
+            request,
+            'admin/liste_livres.html',
+            {
+                'livres': models.Livre.objects.all(),
+                'auteurs': models.Auteur.objects.all(),
+                'livres_auteurs': livres_auteurs
+            }
+        )
+
+
+@user_passes_test(permissions.is_staff)
+def supprimer_livre(request, pk):
+    models.Livre.objects.filter(pk=pk).first().auteurs.clear()
+    models.Livre.objects.filter(pk=pk).first().delete()
+    return redirect('voir-livres')
+
+
+@user_passes_test(permissions.is_staff)
+def mettre_a_jour_livre(request, pk, **kwargs):
+    instance = models.Livre.objects.filter(pk=pk).first()
+    form = forms.AddBookForm(request.POST, instance=instance)
+    if form.is_valid():
+        form.save()
+    return redirect('voir-livres')

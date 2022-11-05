@@ -50,7 +50,7 @@ class Commande(models.Model):
         "matricule",
         primary_key=True
     )
-    isbn_livre = models.ForeignKey(Livre, on_delete=models.DO_NOTHING)
+    isbn_livre = models.ForeignKey(Livre, on_delete=models.CASCADE)
     emprunt_en_cours = models.BooleanField(default=True)
     date_debut = models.DateField(auto_now_add=True, blank=True)
     date_fin = models.DateField(blank=True, null=True)

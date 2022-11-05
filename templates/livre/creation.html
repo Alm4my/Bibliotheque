@@ -61,7 +61,7 @@ Ajout d'un Livre
                     {% for message in messages %}
                         <p style="color:orangered">{{ message }}</p>
                     {% endfor %}
-                    <button class="btn btn-primary btn-lg" type="submit">Ajouter Auteur</button>
+                    <button class="btn btn-primary btn-lg" type="submit">Ajouter Livre</button>
                     <button class="btn btn-outline-danger btn-lg" type="reset">Effacer</button>
                 </div>
             </form>
@@ -95,23 +95,7 @@ Ajout d'un Livre
     })()
     </script>
 
-{#    <h3>Ajouter un auteur</h3>#}
-{#    {% for message in messages %}#}
-{#        <p style="color:orangered">{{ message }}</p>#}
-{#    {% endfor %}#}
-{##}
-{#    <form method="post">#}
-{#        {% csrf_token %}#}
-{#        {% for field in form %}#}
-{#            <p>{{ field.label }}: {{ field }}</p>#}
-{#            {% for error in field.errors %}#}
-{#                <small style="color:darkred">{{ error }}</small>#}
-{#            {% endfor %}#}
-{##}
-{#        {% endfor %}#}
-{##}
-{#        <button type="submit">Ajouter Livre</button>#}
-{#    </form>#}
+
 
 {% endblock %}
 
