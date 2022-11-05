@@ -47,9 +47,10 @@ def add_author(request):
 # un décorateur.
 def add_book(request):
     form = forms.AddBookForm(request.POST or None)
+    authors = models.Auteur.objects.all()
     if request.user.is_staff and request.user.is_active:
         if request.method == "GET":
-            return render(request, 'livre/creation.html', {'form': form})
+            return render(request, 'livre/creation.html', {'form': authors})
 
         else:
             if form.is_valid():
@@ -61,11 +62,11 @@ def add_book(request):
                 return render(
                     request,
                     'livre/creation.html',
-                    {'form': forms.AddBookForm()}
+                    {'form': authors}
                 )
 
             messages.error(request, m.BOOK_CREATION_ERROR)
-            return render(request, 'livre/creation.html', {'form': form})
+            return render(request, 'livre/creation.html', {'form': authors})
     messages.error(request, m.NOT_ENOUGH_RIGHTS)
     return redirect(f"{reverse('login')}?next={request.path}")
 
