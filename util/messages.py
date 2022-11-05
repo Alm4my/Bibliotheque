@@ -2,7 +2,9 @@ WRONG_CREDENTIALS = "Votre nom d'utilisateur ou mot de passe est invalide. Veuil
                     "re-essayer."
 FAILED_REGISTRATION = "Inscription Echouée ! Informations invalides."
 AUTHOR_CREATION_SUCCESS = "Vous avez créé un nouvel auteur avec succès."
-AUTHOR_CREATION_ERROR = "Nous n'avons pu ajouter le nouvel utilisateur. Veuillez " \
+AUTHOR_CREATION_ERROR = "Nous n'avons pu ajouter le nouvel utilisateur; il existe " \
+                        "déjà. " \
+                        "Veuillez " \
                         "re-essayer ou contacter l'administrateur."
 BOOK_CREATION_SUCCESS = "Vous avez ajouté un nouveau livre avec succès."
 BOOK_CREATION_ERROR = "Nous n'avons pu ajouter un nouveau livre. Veuillez " \

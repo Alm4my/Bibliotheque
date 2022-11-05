@@ -28,6 +28,7 @@ urlpatterns = [
         auth_views.PasswordChangeView.as_view(
             template_name='comptes/changer-mdp.html'
         ),
+        name='change-my-password'
     ),
 
     path(
@@ -68,6 +69,6 @@ urlpatterns = [
 
     path('add-bib/', views.register_bib, name='register-bib'),
 
-    path('change-user-mdp/', views.change_user_password, name='register-bib'),
-    path('change-user-mdp/<str:pk>', views.change_user_password, name='register-bib'),
+    path('change-user-mdp/', views.change_user_password, name='change-a-user-pass'),
+    path('change-user-mdp/<str:pk>', views.change_user_password, name='change-a-user-pass'),
 ]

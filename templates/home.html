@@ -2,35 +2,37 @@
 {% block title %}
 Accueil
 {% endblock %}
-
 {% block content %}
 {% for message in messages %}
     <p style="color:orangered">{{ message }}</p>
 {% endfor %}
+    {% if not user.is_authenticated %}
+    <div class="alert alert-success text-center" role="alert">
+        <h3>Bienvenue!</h3>
+        <h6 class="text-muted">Bienvenue sur la bibliothèque de l'International Data Science Institute!</h6>
+        <p class="lead">
+            Pour pouvoir réserver un livre, et le récupérer à l'institut, il va vous falloir vous inscrire avec
+            votre mail INPHB et choisir réservation sur la navigation. Notez que vous ne pourrai que réserver
+            un seul livre à la fois.
+        </p>
+    </div>
+    {% else %}
+        {% if user.is_staff %}
+            <div class="alert alert-success text-center" role="alert">
+                <h3 class="lead">Bienvenue!</h3>
+            </div>
+        {% else %}
+            <div class="alert alert-success text-center" role="alert">
+                <h3>Bienvenue!</h3>
+                <h6 class="text-muted">Reservez un livre!!</h6>
+                <p class="lead">
+                    Réservez un livre en choisissant « Réserver un livre » dans la barre de navigation et passer
+                    le récupérer à l’institut. Notez que vous ne pourrai pas réserver de livre tant que vous aurai
+                    un emprunt en cours.
+                </p>
+            </div>
+        {% endif %}
 
-{% if user.is_authenticated %}
-    <div class="alert alert-success" role="alert">
-        <h3>Bienvenue {{ user.nom }}!</h3>
-        <a href="{% url 'logout' %}">Deconnexion ?</a>
-    {% if user.is_staff %}
-        <ul>
-            <li>
-                <a href="{% url 'book-create' %}">Ajouter Livre</a>
-            </li>
-            <li>
-                <a href="{% url 'author-create' %}">Ajouter Auteur</a>
-            </li>
-            <li>
-                <a href="{% url 'voir-commande' %}">Voir Commandes</a>
-            </li>
-        </ul>
     {% endif %}
-    </div>
-{% else %}
-    <div class="alert alert-success" role="alert">
-        <h3>Bienvenue sur votre Bibliothèque IDSI!</h3>
-        <a href="{% url 'register' %}">Inscription</a>
-        <a href="{% url 'login' %}">Connexion</a>
-    </div>
-{% endif %}
+
 {% endblock %}
