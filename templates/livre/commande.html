@@ -1,32 +1,56 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 Réserver un livre
 {% endblock %}
 {% block content %}
-    <h3>Réserver un livre</h3>
-    {% for message in messages %}
-        <p style="color:orangered">{{ message }}</p>
-    {% endfor %}
+    <link rel="stylesheet" href="{% static 'css/tom-select.bootstrap5.min.css' %}">
+        <div class="row mb-3">
+        <div class="col"></div>
+        <div class="col-6 text-center">
+            <h3>Réserver un livre</h3>
+            <small>
+                Chercher le livre que vous voulez réserver et commandez le.
+            </small>
+        </div>
+        <div class="col"></div>
+    </div>
 
-    <form method="post">
-        {% csrf_token %}
-    <label for="isbn_livre">Livre</label>
-        <select name="isbn_livre" id="isbn_livre">
-            {% for livre in livres %}
-                <option value="{{ livre.isbn }}">{{ livre }}</option>
-            {% endfor %}
-
-        </select>
-        {% for field in form %}
-            <p>{{ field.label }}: {{ field }}</p>
-            {% for error in field.errors %}
-                <small style="color:darkred">{{ error }}</small>
-            {% endfor %}
-
-        {% endfor %}
-
-        <button type="submit">Ajouter Livre</button>
-    </form>
-
+        <div class="row">
+        <div class="col"></div>
+        <div class="col text-center">
+            <form method="post">
+                {% csrf_token %}
+                <select class="form-select mb-3" id="livre-search" name="isbn_livre" aria-label=" select" required>
+                    {% for livre in livres %}
+                        <option value="{{ livre.isbn }}">{{ livre }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-floating mb-3">
+                        Note
+                        <label for="exampleFormControlTextarea1" class="form-label"></label>
+                        <textarea class="form-control" name="note" id="exampleFormControlTextarea1" rows="4"></textarea>
+                    </div>
+                <div class="mb-3">
+                    {% for message in messages %}
+                        <p style="color:orangered">{{ message }}</p>
+                    {% endfor %}
+                    <button class="btn btn-primary btn-lg" type="submit">Réserver Livre</button>
+                    <button class="btn btn-outline-danger btn-lg" type="reset">Effacer</button>
+                </div>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+    <script src="{% static 'js/tom-select.complete.min.js' %}"></script>
+    <script>
+        new TomSelect("#livre-search", {
+            create: true,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            }
+        });
+    </script>
 {% endblock %}
 

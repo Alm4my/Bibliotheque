@@ -20,6 +20,10 @@
         {% endfor %}
 
     <div>
-        <button type="submit">Ajouter Maintenant</button>
+        {% for message in messages %}
+            <p style="color:orangered">{{ message }}</p>
+        {% endfor %}
+        <button class="btn btn-primary btn-lg" type="submit">Ajouter Maintenant</button>
+        <button class="btn btn-outline-danger btn-lg" type="reset">Effacer</button>
     </div>
 </form>{% endblock %}

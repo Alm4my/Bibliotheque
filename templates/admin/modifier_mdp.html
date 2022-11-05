@@ -6,44 +6,58 @@
 
 {% block content %}
     <style>
-        .errorlist{color:orangered}
+    .errorlist{color:orangered}
     </style>
-{% for message in messages %}
-    <p style="color:orangered">{{ message }}</p>
-{% endfor %}
-<form method="POST">
-    <h3>Changer MDP Utilisateur</h3>
-    {% csrf_token %}
 
-    <label for="pk">Utilisateur: </label>
-    <div>
-        <select name="pk" id="pk">
-        {% for utilisateur in utilisateurs %}
-            <option value="{{ utilisateur.pk }}">{{ utilisateur }} - {{ utilisateur.nom }} {{ utilisateur.prenoms }}</option>
-        {% endfor %}
-    </select>
-    </div>
-    <div>
-        <label> Mot de passe:
-            <input type="password" name="password1" placeholder="*********">
-        </label>
-        <div class="help" id="id_password1_helptext">
-            <ul>
-                <li>Votre mot de passe ne peut pas trop ressembler à vos autres informations personnelles.</li>
-                <li>Votre mot de passe doit contenir au minimum 8 caractères.</li>
-                <li>Votre mot de passe ne peut pas être un mot de passe couramment utilisé.</li>
-                <li>Votre mot de passe ne peut pas être entièrement numérique.</li>
-            </ul>
+    <div class="row mb-3">
+        <div class="col"></div>
+        <div class="col-6 ">
+            <form method="POST">
+                <h3 class="text-center">Changer MDP Utilisateur</h3>
+{#                <small>Changer le mot de passe d'un utilisateur.</small>#}
+            <div class="help" id="id_password1_helptext">
+                <ul>
+                    <li>Votre mot de passe ne peut pas trop ressembler à vos autres informations personnelles.</li>
+                    <li>Votre mot de passe doit contenir au minimum 8 caractères.</li>
+                    <li>Votre mot de passe ne peut pas être un mot de passe couramment utilisé.</li>
+                    <li>Votre mot de passe ne peut pas être entièrement numérique.</li>
+                </ul>
+            </div>
+                {% csrf_token %}
+                <div>
+                    <label for="pk">Utilisateur: </label>
+                    <select class="form-select mb-3" name="pk" aria-label=" select" required>
+                        {% for utilisateur in utilisateurs %}
+                            <option value="{{ utilisateur.pk }}">{{ utilisateur }} - {{ utilisateur.nom }} {{ utilisateur.prenoms }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" name="password1" class="form-control" id="floatingInput"
+                         required>
+                  <label for="floatingInput">Mot de Passe</label>
+                    <div class="invalid-feedback">
+                      Le mot de passe doit etre renseigner.
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" name="password1" class="form-control" id="floatingInput"
+                         required>
+                  <label for="floatingInput">Confirmation Mot de Passe</label>
+                    <div class="invalid-feedback">
+                      Le mot de passe doit etre renseigner.
+                    </div>
+                </div>
+                <div class="text-center">
+                    {% for message in messages %}
+                        <p style="color:orangered">{{ message }}</p>
+                    {% endfor %}
+                    <button class="btn btn-primary btn-lg" type="submit">Changer</button>
+                    <button class="btn btn-outline-danger btn-lg" type="reset">Effacer</button>
+                </div>
+            </form>
         </div>
-    </div>
-    <div>
-        <label> Confirmation du Mot de passe:
-        <input type="password" name="password2" placeholder="*********">
-    </label>
-        <div class="help" id="id_password2_helptext">Saisissez le même mot de passe que précédemment, pour vérification.</div>
+        <div class="col"></div>
     </div>
 
-    <div>
-        <button type="submit">Changer</button>
-    </div>
-</form>{% endblock %}
+{% endblock %}

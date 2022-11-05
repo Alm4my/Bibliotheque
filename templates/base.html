@@ -21,6 +21,7 @@
                   {% if user.is_staff %}
                       <a class="nav-link" href="{% url 'author-create' %}">Ajouter Auteur</a>
                       <a class="nav-link" href="{% url 'book-create' %}">Ajouter Livre</a>
+                      <a class="nav-link" href="{% url 'register-bib' %}">Ajouter Staff</a>
                       <a class="nav-link" href="{% url 'voir-commande' %}">Voir Commandes</a>
                       <a class="nav-link" href="{% url 'change-a-user-pass' %}">Mot de Passe Etudiant</a>
                   {% else %}

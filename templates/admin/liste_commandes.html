@@ -4,21 +4,100 @@ Commandes en cours
 {% endblock %}
 
 {% block content %}
-{% for commande in commandes %}
-    <p>
-        Titre: {{ commande.isbn_livre.titre }} |
-        Etudiant: {{ commande.matricule.nom }} {{ commande.matricule.prenoms }} |
-        Date de Debut: {{ commande.date_debut }} |
-        Date de Fin: {{ commande.date_fin }} |
-        Etat Livre: {{ commande.emprunt_en_cours }} |
-    </p>
-    <form method="post" action="{% url 'voir-commande' commande.matricule_id %}">
-        Action: <button type="submit">Livre Rendu</button>
-        {% csrf_token %}
-        <input type="hidden" name="pk" value="{{ commande.matricule_id }}">
+    <div class="row mb-3">
+        <div class="col"></div>
+        <div class="col-6 text-center">
+            <h3>Reservations en Cours</h3>
+            <small>
+                Ceci montre les reservations qui sont actuellement en cours. Lorsque l'étudiant ramene le libre, vous
+                pourrai valider en cliquant sur livre rendu.
+            </small>
+        </div>
+        <div class="col"></div>
+    </div>
+<div class="alert" role="alert" id="result"></div>
+    <div class="row">
+        <label for="search"></label>
+        <input class="form-control form-control-lg" type="text" id="search" onkeyup="search()"
+               placeholder="Rechercher une commande par le nom de l'etudiant...">
+    <table class="table table-dark table-striped table-hover" id="commande">
+        <thead>
+        <tr>
+            <th>Matricule Etudiant</th>
+            <th>Nom Etudiant</th>
+            <th>ISBN Livre</th>
+            <th>Titre - Auteur(s) Livre</th>
+            <th>Reservation</th>
+            <th>Retour Programmée</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for commande in commandes %}
+            <tr>
+                <td>{{ commande.matricule_id }}</td>
+                <td>{{ commande.matricule.nom }} {{ commande.matricule.prenoms }}</td>
+                <td>{{ commande.isbn_livre_id }}</td>
+                <td>{{ commande.isbn_livre }}</td>
+                <td>{{ commande.date_debut }}</td>
+                <td>{{ commande.date_fin }}</td>
+                <td>
+                    <form method="post" action="{% url 'voir-commande' commande.matricule_id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="pk" value="{{ commande.matricule_id }}">
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header" style="color: #373b3e">
+                                <h3 class="modal-title fs-5" id="staticBackdropLabel">
+                                    L'étudiant a-t-il rendu le livre?
+                                </h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body" style="color: #373b3e">
+                                <p>Confirmez-vous le retour du livre par l'étudiant?</p>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="submit" class="btn btn-danger">Oui</button>
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </form>
+                    <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Livre Rendu
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
 
-    </form>
+        </tbody>
+    </table>
+    </div>
+<script>
+function search() {
+  // Declare variables
+  let input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("search");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("commande");
+  tr = table.getElementsByTagName("tr");
 
-{% endfor %}
-
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
 {% endblock %}
