@@ -10,7 +10,7 @@ from comptes.forms import CreateBiblioForm, CreateUserForm, LoginForm
 from comptes.models import Utilisateur
 from util.messages import (
     BIB_CREATE_FAIL, BIB_CREATE_SUCCESS, FAILED_REGISTRATION,
-    PASSWD_CHANGE_FAIL, PASSWD_CHANGE_SUCCESS, WRONG_CREDENTIALS,
+    PASSWD_CHANGE_FAIL, PASSWD_CHANGE_SUCCESS, WRONG_CREDENTIALS, FAILED_REGISTRATION_ID,
 )
 
 
@@ -20,10 +20,13 @@ def register_view(req):
         return render(req, "comptes/inscription.html", {'register_form': form})
     else:
         if form.is_valid():
-            user = form.save()
-            login(req, user, backend='comptes.backends.AuthBackend')
-            messages.success(req, "Inscription Réussie!")
-            return redirect('home')
+            if not re.match(r"\d{2}INP\d{5}", req.POST.get("matricule"), re.IGNORECASE):
+                messages.error(req, FAILED_REGISTRATION_ID)
+            else:
+                user = form.save()
+                login(req, user, backend='comptes.backends.AuthBackend')
+                messages.success(req, "Inscription Réussie!")
+                return redirect('home')
         messages.error(req, FAILED_REGISTRATION)
 
     return render(req, "comptes/inscription.html", {"register_form": form})

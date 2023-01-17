@@ -2,14 +2,19 @@
 {% block title %}
 Accueil
 {% endblock %}
-{% block content %}
-{% for message in messages %}
-    <p style="color:orangered">{{ message }}</p>
-{% endfor %}
+{% block special %}
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-12 col-lg-12 col-xl-5">
+
+          {% for message in messages %}
+                <p style="color:orangered">{{ message }}</p>
+            {% endfor %}
     {% if not user.is_authenticated %}
-    <div class="alert alert-success text-center" role="alert">
+    <div class="" style="color: white; text-align: center">
         <h3>Bienvenue!</h3>
-        <h6 class="text-muted">Bienvenue sur la bibliothèque de l'International Data Science Institute!</h6>
+        <h6 class="">Bienvenue sur la bibliothèque de l'International Data Science Institute!</h6>
         <p class="lead">
             Pour pouvoir réserver un livre, et le récupérer à l'institut, il va vous falloir vous inscrire avec
             votre mail INPHB et choisir réservation sur la navigation. Notez que vous ne pourrai que réserver
@@ -18,13 +23,13 @@ Accueil
     </div>
     {% else %}
         {% if user.is_staff %}
-            <div class="alert alert-success text-center" role="alert">
-                <h3 class="lead">Bienvenue!</h3>
+            <div class="text-white" style="text-align: center">
+                <h1 class="lead">Bienvenue!</h1>
             </div>
         {% else %}
-            <div class="alert alert-success text-center" role="alert">
+            <div class="text-white" style="text-align: center">
                 <h3>Bienvenue!</h3>
-                <h6 class="text-muted">Reservez un livre!!</h6>
+                <h6 class="">Reservez un livre!!</h6>
                 <p class="lead">
                     Réservez un livre en choisissant « Réserver un livre » dans la barre de navigation et passer
                     le récupérer à l’institut. Notez que vous ne pourrai pas réserver de livre tant que vous aurai
@@ -34,5 +39,12 @@ Accueil
         {% endif %}
 
     {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+{% block content %}
 
 {% endblock %}

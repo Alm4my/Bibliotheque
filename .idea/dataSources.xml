@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="db" uuid="22ef9280-545a-45e0-ab60-5d2147c917ee">
+    <data-source source="LOCAL" name="db [2]" uuid="c2224c29-b8c7-4b04-b718-1649fbe2ab25">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Almamy\PycharmProjects\Bibliotheque\db.sqlite3</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="Django default" uuid="ca484fd2-02d9-41c4-9da7-ab67164d0d3a">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>$PROJECT_DIR$/Bibliotheque/settings.py</remarks>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Almamy\PycharmProjects\Bibliotheque\db.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\VM\PycharmProjects\Bibliotheque\db.sqlite3</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

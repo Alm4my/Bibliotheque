@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -135,3 +136,10 @@ LOGIN_URL = 'login'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-secondary',
+        messages.INFO: 'alert alert-primary d-flex align-items-center alert-dismissible fade show',
+        messages.SUCCESS: 'alert alert-success d-flex align-items-center alert-dismissible fade show',
+        messages.WARNING: 'alert alert-warning d-flex align-items-center alert-dismissible fade show',
+        messages.ERROR: 'alert alert-danger d-flex align-items-center alert-dismissible fade show',
+ }

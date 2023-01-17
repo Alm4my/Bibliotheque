@@ -1,6 +1,8 @@
 WRONG_CREDENTIALS = "Votre nom d'utilisateur ou mot de passe est invalide. Veuillez " \
                     "re-essayer."
 FAILED_REGISTRATION = "Inscription Echouée ! Informations invalides."
+FAILED_REGISTRATION_ID = "Votre matricule ne respecte pas le format XXINPXXXXX e.g. " \
+                                "22INP0000."
 AUTHOR_CREATION_SUCCESS = "Vous avez créé un nouvel auteur avec succès."
 AUTHOR_CREATION_ERROR = "Nous n'avons pu ajouter le nouvel utilisateur; il existe " \
                         "déjà. " \
